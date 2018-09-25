@@ -2,12 +2,14 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="/Users/oscargalindo/Downloads/guava-26.0-jre.jar"/>
-	<classpathentry kind="lib" path="/Users/oscargalindo/Downloads/jung-algorithms-2.1.1.jar"/>
-	<classpathentry kind="lib" path="/Users/oscargalindo/Downloads/jung-api-2.1.1.jar"/>
-	<classpathentry kind="lib" path="/Users/oscargalindo/Downloads/jung-graph-impl-2.1.1.jar"/>
-	<classpathentry kind="lib" path="/Users/oscargalindo/Downloads/jung-io-2.1.1.jar"/>
-	<classpathentry kind="lib" path="/Users/oscargalindo/Downloads/jung-samples-2.1.1.jar"/>
-	<classpathentry kind="lib" path="/Users/oscargalindo/Downloads/jung-visualization-2.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JanieLee/Desktop/Fall 2018/Algorithms/Jung/jung-3d-demos-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JanieLee/Desktop/Fall 2018/Algorithms/Jung/jung-algorithms-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JanieLee/Desktop/Fall 2018/Algorithms/Jung/jung-api-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JanieLee/Desktop/Fall 2018/Algorithms/Jung/jung-graph-impl-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JanieLee/Desktop/Fall 2018/Algorithms/Jung/jung-io-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JanieLee/Desktop/Fall 2018/Algorithms/Jung/jung-jai-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JanieLee/Desktop/Fall 2018/Algorithms/Jung/jung-jai-samples-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JanieLee/Desktop/Fall 2018/Algorithms/Jung/jung-samples-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JanieLee/Desktop/Fall 2018/Algorithms/Jung/jung-visualization-2.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
