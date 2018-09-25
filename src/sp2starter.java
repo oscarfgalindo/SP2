@@ -52,7 +52,14 @@ public class sp2starter {
 		Dimension dim = new Dimension(400, 400);
 		// (0,0) is the top left corner
 		Layout<String, String> l = new StaticLayout<String, String>(g);
- 
+		l.setLocation("000", new Point(100, 50));
+		l.setLocation("001", new Point(300, 50));
+		l.setLocation("010", new Point(100, 350));
+		l.setLocation("100", new Point(50, 100));
+		l.setLocation("011", new Point(300, 350));
+		l.setLocation("101", new Point(350, 100));
+		l.setLocation("110", new Point(50, 300));
+		l.setLocation("111", new Point(350, 300));
 
 		VisualizationImageServer<String, String> vis = new VisualizationImageServer<String, String>(l, dim);
 
@@ -72,7 +79,6 @@ public class sp2starter {
 			
 			
 			
-
 			HashMap<String, Tuple> displacements = new HashMap<String, Tuple>();
 			HashMap<String, Tuple> positions = new HashMap<String, Tuple>();
 
@@ -133,6 +139,11 @@ public class sp2starter {
 			x += other.x;
 			y += other.y;
 			// this.edit(x, y);
+		}
+		
+		public void sub(Tuple other){
+			x -= other.x;
+			y -= other.y;
 		}
 
 		public void edit(Double a, Double b) {
