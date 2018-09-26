@@ -48,7 +48,7 @@ public class sp2starter {
 			Tuple displacementTemp = new Tuple(0, 0); // allowed due to the (int,int) constructor
 			
 			double dist; //temp variable for distance
-			double force; //temp variable for force
+			double aForce; //temp variable for force
 
 			for (String e : g.getEdges()) {
 
@@ -61,8 +61,8 @@ public class sp2starter {
 				dist = distance(positions.get(a),  positions.get(b));
 				
 				// TODO: calculate attractive force			
-				force = attractF(dist, k); 
-				displacementTemp = (positions.get(a).subtract(positions.get(b))).multiply(1/dist);
+				aForce = attractF(dist, k); 
+				displacementTemp = (positions.get(a).subtract(positions.get(b))).multiply(aForce/dist);
 				displacements.get(e).sum(displacementTemp);
 				System.out.println(e);
 				System.out.println(displacements.get(e));
