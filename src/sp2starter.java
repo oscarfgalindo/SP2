@@ -60,9 +60,12 @@ public class sp2starter {
 				displacements.get(b).sub(displacementTemp);
 
 			}
+			System.out.println("");
+			System.out.println("iteration:" + t);
 
 			double rForce;
 			for (String u : g.getVertices()) {
+				System.out.println(u + " attract:" + displacements.get(u));
 				for (String v : g.getVertices()) {
 					if (u != v) {
 						// find distance between vertices
@@ -73,14 +76,13 @@ public class sp2starter {
 						displacements.get(u).sum(displacementTemp);
 
 					}
-
 				}
+				System.out.println(u + " repulse:" + displacements.get(u));
 
 			}
 			//add displacements to positions
 			for (String v : g.getVertices()) {
 				positions.get(v).sum(displacements.get(v));
-				//System.out.println(positions.get(v));
 			}
 
 		}
@@ -107,10 +109,8 @@ public class sp2starter {
 		// create and return static layout with calculated positions
 		StaticLayout<String, String> l = new StaticLayout<String, String>(g);
 		for (String u : g.getVertices()) {
-			System.out.println(positions.get(u));
 			newLoc = normalize(positions.get(u));
 			l.setLocation(u, newLoc.toPoint());
-			//System.out.println(newLoc);
 		}
 		System.out.println("FINISHED");
 		return l;

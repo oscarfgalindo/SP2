@@ -42,7 +42,7 @@ public class sp2 {
 		// Compute a force directed layout
 		Dimension dim = new Dimension(500, 500);
 		sp2starter tools = new sp2starter();
-		StaticLayout<String, String> l = tools.fRAlgorithm(g, 1, dim, 6);
+		StaticLayout<String, String> l = tools.fRAlgorithm(g, 1000, dim, 40);
 		dim.setSize(dim.getWidth() * 1.1, dim.getHeight() * 1.1);
 
 		// create image
