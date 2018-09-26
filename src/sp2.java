@@ -1,13 +1,19 @@
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.SparseGraph;
 import edu.uci.ics.jung.graph.util.Pair;
+import edu.uci.ics.jung.visualization.VisualizationImageServer;
 
 
 public class sp2 {
@@ -36,31 +42,32 @@ public class sp2 {
 		g.addEdge("e10", new Pair<String>("101", "111"));
 		g.addEdge("e11", new Pair<String>("110", "111"));
 
-		// TODO: Compute a force directed layout
-
+		//Compute a force directed layout
 		Dimension dim = new Dimension(400, 400);
-		// (0,0) is the top left corner
-		Layout<String, String> l = new StaticLayout<String, String>(g);
-		l.setLocation("000", new Point(100, 50));
-		l.setLocation("001", new Point(300, 50));
-		l.setLocation("010", new Point(100, 350));
-		l.setLocation("100", new Point(50, 100));
-		l.setLocation("011", new Point(300, 350));
-		l.setLocation("101", new Point(350, 100));
-		l.setLocation("110", new Point(50, 300));
-		l.setLocation("111", new Point(350, 300));
+		sp2starter tools = new sp2starter();
+		StaticLayout<String, String> l = tools.fRAlgorithm(g, 1, dim);
 		
-		/*VisualizationImageServer<String, String> vis = new VisualizationImageServer<String, String>(l, dim);
+
+		//create image
+		VisualizationImageServer<String, String> vis = new VisualizationImageServer<String, String>(l, dim);
 
 		BufferedImage im = (BufferedImage) vis.getImage(new Point2D.Double(dim.getWidth() / 2, dim.getHeight() / 2),
 				dim);
 		ImageIO.write((RenderedImage) im, "jpg", new File("out.jpg"));
-		for (String e : g.getEdges()) {
-			System.out.println(e);
-		}*/
+
+		}
 		
-		sp2starter tools = new sp2starter();
-		tools.fRAlgorithm(g, 1, dim);
+
 	}
 
-}
+/*//			DEVANNNY'S LAYOUT 
+// (0,0) is the top left corner
+Layout<String, String> l = new StaticLayout<String, String>(g);
+l.setLocation("000", new Point(100, 50));
+l.setLocation("001", new Point(300, 50));
+l.setLocation("010", new Point(100, 350));
+l.setLocation("100", new Point(50, 100));
+l.setLocation("011", new Point(300, 350));
+l.setLocation("101", new Point(350, 100));
+l.setLocation("110", new Point(50, 300));
+l.setLocation("111", new Point(350, 300));*/

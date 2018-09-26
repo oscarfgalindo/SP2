@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.security.auth.x500.X500Principal;
@@ -24,7 +25,7 @@ import edu.uci.ics.jung.visualization.VisualizationImageServer;
 
 public class sp2starter {	
 
-	public void fRAlgorithm(Graph<String, String> g, int k, Dimension dim) {
+	public StaticLayout<String, String> fRAlgorithm(Graph<String, String> g, int k, Dimension dim) {
 		
 		double height = dim.getHeight();
 		double width = dim.getWidth();
@@ -33,15 +34,21 @@ public class sp2starter {
 		HashMap<String, Tuple> positions = new HashMap<String, Tuple>();
 		
 		//TODO randomly assign first positions and populate positions HashMap
-		
+	    Random rand = new Random();
+	    Tuple tempPos;
+		for(String u: g.getVertices()){
+				tempPos = new Tuple(rand.nextDouble()*height, rand.nextDouble()*width);
+				positions.put(u, tempPos);
+				System.out.println(positions.get(u));
+		}
 		
 
 		
-		for (int t = 0; t < 1; t++) {
+		for (int t = 0; t < 0; t++) {
 			Tuple displacementTemp = new Tuple(0, 0); // allowed due to the (int,int) constructor
 			
-			double d; //temp for distance
-
+			double dist; //temp variable for distance
+			double force; //temp variable for force
 
 			for (String e : g.getEdges()) {
 
@@ -49,15 +56,16 @@ public class sp2starter {
 				
 				String a = edge.getFirst();
 				String b = edge.getSecond();
-				System.out.println(a);
-	
-				// TODO: calculate attractive force			
-//				d = 
-//				displacementTemp = attractF();
 				
-//				displacements.get(e).sum(displacementTemp);
-//				System.out.println(e);
-//				System.out.println(displacements.get(e));
+				//find distance between endpoints
+				dist = distance(positions.get(a),  positions.get(b));
+				
+				// TODO: calculate attractive force			
+				force = attractF(dist, k); 
+				displacementTemp = (positions.get(a).subtract(positions.get(b))).multiply(1/dist);
+				displacements.get(e).sum(displacementTemp);
+				System.out.println(e);
+				System.out.println(displacements.get(e));
 
 			}
 			
@@ -65,6 +73,8 @@ public class sp2starter {
 //			for(String u: g.getVertices()){
 //				 for(String v: g.getVertices()){
 //					 if( u != v) {
+//					//find distance between vertices
+//					double dist = distance(positions.get(a),  positions.get(b));
 //						 //TODO: add repulsive force to u displacement
 //					 }
 //						
@@ -78,7 +88,14 @@ public class sp2starter {
 //		
 		}
 		
-		//TODO: create and return static layout with calculated positions 
+//		//TODO: create and return static layout with calculated positions 
+		StaticLayout<String, String> l = new StaticLayout<String, String>(g);
+		for(String u: g.getVertices()) {
+			l.setLocation(u, positions.get(u).toPoint());
+		}
+		
+		return l;
+		
 	}
 
 	public double distance(Tuple t, Tuple u) {
@@ -91,49 +108,6 @@ public class sp2starter {
 
 	public double repulseF(Double d, int k) {
 		return -(k * k) / d;
-	}
-
-	public class Tuple {
-		public Double x;
-		public Double y;
-
-		public Tuple(Double x, Double y) {
-			this.x = x;
-			this.y = y;
-		}
-		
-		public Tuple(Integer x, Integer y) {
-			this.x = Double.valueOf(x);
-			this.y = Double.valueOf(y);
-		}
-
-		public void sum(Tuple other) {
-			x += other.x;
-			y += other.y;
-			// this.edit(x, y);
-		}
-		
-		public void sub(Tuple other){
-			x -= other.x;
-			y -= other.y;
-		}
-
-		public void edit(Double a, Double b) {
-			x = a;
-			y = b;
-		}
-
-		public double getX() {
-			return x;
-		}
-
-		public double getY() {
-			return y;
-		}
-
-		public Tuple multiply(double d) {
-			return new Tuple(x * d, y * d);
-		}
 	}
 
 }
