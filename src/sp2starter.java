@@ -1,10 +1,13 @@
 import java.awt.Dimension;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.graph.Graph;
+import edu.uci.ics.jung.graph.SparseGraph;
 import edu.uci.ics.jung.graph.util.Pair;
-
 
 public class sp2starter {
 
@@ -13,8 +16,10 @@ public class sp2starter {
 	double buffer;
 	StaticLayout<String, String> r;
 
-	public StaticLayout<String, String> fRAlgorithm(Graph<String, String> g, int k, Dimension dim, int iter) {
-
+	public StaticLayout<String, String> fRAlgorithm(Graph<String, String> g, int k, Dimension dim, int iter, int temperature) {
+		
+		int temp =	temperature;
+		
 		height = dim.getHeight();
 		width = dim.getWidth();
 		buffer = height * .05; // space between sides
@@ -37,6 +42,7 @@ public class sp2starter {
 			r.setLocation(u, newLoc.toPoint());
 		}
 
+		
 		for (int t = 0; t < iter; t++) {
 			Tuple displacementTemp = new Tuple(0, 0); // allowed due to the (int,int) constructor
 
@@ -55,7 +61,11 @@ public class sp2starter {
 
 				// calculate attractive force
 				aForce = attractF(dist, k);
-				displacementTemp = (positions.get(a).subtract(positions.get(b))).multiply(aForce / dist);
+				if (aForce > temp) {
+					displacementTemp = (positions.get(a).subtract(positions.get(b))).multiply(temp / dist);
+				} else {
+					displacementTemp = (positions.get(a).subtract(positions.get(b))).multiply(aForce / dist);
+				}
 				displacements.get(a).sum(displacementTemp);
 				displacements.get(b).sub(displacementTemp);
 
@@ -72,15 +82,19 @@ public class sp2starter {
 						dist = distance(positions.get(u), positions.get(v));
 						// calculate and add repulsive force to u displacement
 						rForce = repulseF(dist, k);
-						displacementTemp = (positions.get(u).subtract(positions.get(v))).multiply(rForce / dist);
-						displacements.get(u).sum(displacementTemp);
+						if (rForce > temp) {
+							displacementTemp = (positions.get(u).subtract(positions.get(v))).multiply(temp / dist);
 
+						} else {
+							displacementTemp = (positions.get(u).subtract(positions.get(v))).multiply(rForce / dist);
+						}
+						displacements.get(u).sum(displacementTemp);
 					}
 				}
 				System.out.println(u + " repulse:" + displacements.get(u));
 
 			}
-			//add displacements to positions
+			// add displacements to positions
 			for (String v : g.getVertices()) {
 				positions.get(v).sum(displacements.get(v));
 			}
@@ -101,7 +115,6 @@ public class sp2starter {
 				maxY = positions.get(u).getY();
 			}
 		}
-
 
 		rangeX = maxX - minX;
 		rangeY = maxY - minY;
@@ -147,6 +160,67 @@ public class sp2starter {
 
 	public double repulseF(Double d, int k) {
 		return -(k * k) / d;
+	}
+
+	public Graph<String, String> readGraph(String filename) {
+		Graph<String, String> g = new SparseGraph<String, String>();
+
+		try {
+			FileReader fr = new FileReader(filename);
+			BufferedReader br = new BufferedReader(fr);
+			String line = br.readLine();
+
+			ArrayList<String> rows = new ArrayList<String>();
+			String longLabel = "";
+			// add vertices to graph
+			while (line != null) {
+				if (line.contains("LABELS")) {
+					line = br.readLine();
+					while (!line.contains("DATA:")) {
+						longLabel = longLabel + line.replaceAll(Character.toString('\"'), " ");
+						line = br.readLine();
+					}
+				}
+				if (line.contains("DATA:")) {
+					line = br.readLine();
+					while (line != null) {
+						rows.add(line);
+						line = br.readLine();
+					}
+				}
+				line = br.readLine();
+
+			}
+
+			br.close();
+			fr.close();
+
+//			String[] labels = longLabel.split(",");
+			int num_nodes = rows.size();
+			String[] temp;
+
+			// populate nodes
+			for (int i = 0; i < num_nodes; i++) {
+				g.addVertex(Integer.toString(i));
+			}
+
+			int m = 0;
+			for (int i = 0; i < num_nodes; i++) {
+				temp = rows.get(i).trim().split(" ");
+				for (int j = 0; j < num_nodes; j++) {
+					if (!temp[j].equals("0")) {
+						g.addEdge("e" + Integer.toString(m),
+								new Pair<String>(Integer.toString(i), Integer.toString(j)));
+						m++;
+					}
+				}
+
+			}
+
+		} catch (Exception e) {
+			System.out.print(e);
+		}
+		return g;
 	}
 
 }

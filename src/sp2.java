@@ -2,8 +2,11 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -16,6 +19,16 @@ import edu.uci.ics.jung.visualization.VisualizationImageServer;
 public class sp2 {
 
 	public static void main(String[] args) throws IOException {
+
+		sp2starter tools = new sp2starter();
+//		Graph<String, String> g;
+//		String filename = "lesmis.dat";
+//		g = tools.readGraph(filename);
+//
+	// Compute a force directed layout
+		Dimension dim = new Dimension(500, 500);
+		
+		
 		Graph<String, String> g = new SparseGraph<String, String>();
 
 		g.addVertex("000");
@@ -38,11 +51,8 @@ public class sp2 {
 		g.addEdge("e9", new Pair<String>("011", "111"));
 		g.addEdge("e10", new Pair<String>("101", "111"));
 		g.addEdge("e11", new Pair<String>("110", "111"));
-
-		// Compute a force directed layout
-		Dimension dim = new Dimension(500, 500);
-		sp2starter tools = new sp2starter();
-		StaticLayout<String, String> l = tools.fRAlgorithm(g, 1000, dim, 40);
+		
+		StaticLayout<String, String> l = tools.fRAlgorithm(g, 8, dim, 100000, 1048576);
 		dim.setSize(dim.getWidth() * 1.1, dim.getHeight() * 1.1);
 
 		// create image
@@ -51,14 +61,12 @@ public class sp2 {
 		BufferedImage im = (BufferedImage) vis.getImage(new Point2D.Double(dim.getWidth() / 2, dim.getHeight() / 2),
 				dim);
 		ImageIO.write((RenderedImage) im, "jpg", new File("out.jpg"));
-		
-		//random image
+
+		// random image
 		StaticLayout<String, String> rand = tools.r;
 		vis = new VisualizationImageServer<String, String>(rand, dim);
 		im = (BufferedImage) vis.getImage(new Point2D.Double(dim.getWidth() / 2, dim.getHeight() / 2), dim);
 		ImageIO.write((RenderedImage) im, "jpg", new File("rand.jpg"));
 
 	}
-
 }
-
